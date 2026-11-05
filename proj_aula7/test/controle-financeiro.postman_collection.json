@@ -1,0 +1,196 @@
+{
+  "info": {
+    "name": "Aula 7 - Controle financeiro pessoal",
+    "description": "Execute com a API iniciada. Os POSTs criam registros novos a cada execução. Com banco vazio e um envio de cada exemplo, saldo = 2600; despesas = 400; impulso = 219.5.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1 - Olá Mundo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": []
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 - Cadastrar receita",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/transacoes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "transacoes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"descricao\": \"Salário\",\n  \"valor\": 3000,\n  \"tipo\": \"receita\",\n  \"categoria\": \"Trabalho\",\n  \"consumoConsciente\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 - Cadastrar despesa essencial",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/transacoes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "transacoes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"descricao\": \"Conta de Luz\",\n  \"valor\": 180.5,\n  \"tipo\": \"despesa\",\n  \"categoria\": \"Moradia\",\n  \"consumoConsciente\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 - Cadastrar gasto por impulso",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/transacoes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "transacoes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"descricao\": \"Compra não planejada\",\n  \"valor\": 219.5,\n  \"tipo\": \"despesa\",\n  \"categoria\": \"Lazer\",\n  \"consumoConsciente\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 - Histórico e métricas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/transacoes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "transacoes"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Histórico e métricas', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.historico).to.be.an('array');",
+              "  pm.expect(body.metricas).to.have.all.keys('saldoTotal', 'totalDespesas', 'totalGastoImpulso');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
