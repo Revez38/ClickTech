@@ -23,6 +23,4 @@ no Atlas o IP do computador de execução. Depois execute `npm run start`.
 
 Abra `http://localhost:3000` para consultar a mensagem `Olá Mundo!`.
 
-Instruções de configuração, testes e exemplos: [test/INSTRUCOES.md](./proj_aula7/test/INSTRUCOES.md).
-
 As credenciais do banco ficam somente no `.env` local e não fazem parte deste repositório.
